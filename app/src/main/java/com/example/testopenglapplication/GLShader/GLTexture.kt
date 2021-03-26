@@ -3,7 +3,7 @@ package com.example.testopenglapplication.GLShader
 import android.content.Context
 import android.opengl.GLES30
 import com.example.testopenglapplication.R
-import com.example.testopenglapplication.util.GLTexture
+import com.example.testopenglapplication.util.GLTextureUtil
 import com.example.testopenglapplication.util.ShaderUtil
 import java.nio.FloatBuffer
 
@@ -47,8 +47,8 @@ class GLTexture {
     private var uTexture2 = -1 //纹理2的句柄
 
     constructor(context:Context){
-        textureId1= GLTexture.loadTexture(context,R.mipmap.texture1)
-        textureId2= GLTexture.loadTexture(context,R.mipmap.texture3)
+        textureId1= GLTextureUtil.loadTexture(context,R.mipmap.texture1)
+        textureId2= GLTextureUtil.loadTexture(context,R.mipmap.texture3)
 
         program = ShaderUtil.initProgram("texture.vsh.glsl","texture.fsh.glsl")
         vertBuffer= ShaderUtil.transformFloatBuffer(vertexes)

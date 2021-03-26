@@ -3,7 +3,7 @@ package com.example.testopenglapplication.GLShader
 import android.content.Context
 import android.opengl.GLES30
 import com.example.testopenglapplication.R
-import com.example.testopenglapplication.util.GLTexture
+import com.example.testopenglapplication.util.GLTextureUtil
 import com.example.testopenglapplication.util.ShaderUtil
 import java.nio.FloatBuffer
 
@@ -30,7 +30,10 @@ class GLTeXiaoTexture {
 
     private var vertBuffer: FloatBuffer? = null
     private var textureBuffer: FloatBuffer? = null
+    private var textureId:Int=-1
+
     private var textureId1:Int=-1
+    private var textureId2:Int=-1
 
     private var aPosition = 0 //位置的句柄
     private var aTexCoord = 1 //纹理坐标的句柄
@@ -44,10 +47,15 @@ class GLTeXiaoTexture {
     private var xiaoGuoType:Int=99
     private var timeProgree:Float=0.0f
 
+     lateinit var context:Context
 
     constructor(context: Context){
-        textureId1= GLTexture.loadTexture(context, R.mipmap.texture1)
-
+        this.context=context
+        ShaderUtil.Logi("GLTeXiaoTexture-constructor-thread-${Thread.currentThread().name}")
+        textureId1= GLTextureUtil.loadTexture(context, R.mipmap.texture1)
+        textureId2= GLTextureUtil.loadTexture(context, R.mipmap.texture2)
+        textureId= textureId1
+        ShaderUtil.Logi("first--textureId=${textureId}")
         program = ShaderUtil.initProgram("texture.vsh.glsl","txTexture.fsh.glsl")
         vertBuffer= ShaderUtil.transformFloatBuffer(vertexes)
         textureBuffer= ShaderUtil.transformFloatBuffer(textures)
@@ -91,7 +99,7 @@ class GLTeXiaoTexture {
 
         //绑定纹理
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0)
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId1)
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId)
         GLES30.glUniform1i(uTexture1,0)
 
         GLES30.glUniform1f(uThreshold,threshold)
@@ -118,6 +126,16 @@ class GLTeXiaoTexture {
 
     fun setTimeProgress(num:Float){
         timeProgree=num
+    }
+
+    fun setTextureByALBUM(tempTextureId:Int){
+        ShaderUtil.Logi("textureId=${tempTextureId}")
+//        textureId=tempTextureId
+        textureId = if(textureId== textureId1){
+            textureId2
+        }else{
+            textureId1
+        }
     }
 
 }

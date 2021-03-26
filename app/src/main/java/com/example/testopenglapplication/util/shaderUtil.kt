@@ -73,7 +73,7 @@ object ShaderUtil{
     }
 
 
-    val TAG:String="MyGL"
+    val TAG:String="myMe"
     fun Logi(msg:String,tag:String?= TAG){
             Log.i(tag,msg)
     }

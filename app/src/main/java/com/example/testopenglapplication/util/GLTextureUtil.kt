@@ -3,11 +3,13 @@ package com.example.testopenglapplication.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.opengl.GLES30
 import android.opengl.GLUtils
+import android.provider.MediaStore
 
 
-object GLTexture {
+object GLTextureUtil {
 
 
     /**
@@ -23,6 +25,10 @@ object GLTexture {
         return loadTexture(bitmap, repeatType)
     }
 
+    fun  loadTexture(context: Context,uri:Uri,repeatType:RepeatType?=RepeatType.NONE):Int{
+        var bitmap=BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
+        return loadTexture(bitmap, repeatType)
+    }
 
     /**
      * bitmap 加载纹理

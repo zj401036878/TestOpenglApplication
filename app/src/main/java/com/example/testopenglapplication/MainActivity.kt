@@ -2,21 +2,23 @@ package com.example.testopenglapplication
 
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.testopenglapplication.databinding.ActivityMainBinding
+
 import com.example.testopenglapplication.util.PermissionUtil
-import com.example.testopenglapplication.util.ShaderUtil
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    val REQUEST_CODE_ALBUM=11
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnHeibai.setOnClickListener {
             binding.myglview.setXiaoGuoType(0)
+        }
+        binding.btnPic.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_PICK)
+//            intent.type = "image/*"
+//            startActivityForResult(intent,REQUEST_CODE_ALBUM)
+            binding.myglview.setTextureByALBUM(null)
         }
         binding.btnFp.setOnClickListener {
             binding.myglview.setXiaoGuoType(1)
@@ -92,6 +100,9 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        binding.btnCamerax.setOnClickListener {
+            startActivity(Intent(this@MainActivity,CameraxActivity::class.java))
+        }
     }
 
 
@@ -170,5 +181,21 @@ class MainActivity : AppCompatActivity() {
                 }
             }.show()
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        var uri: Uri? = null
+        when(requestCode) {
+            REQUEST_CODE_ALBUM -> {
+                if (data == null) {
+                    return
+                }
+                uri = data.data
+                binding.myglview.setTextureByALBUM(uri)
+
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.testopenglapplication
+package com.example.testopenglapplication.GLRander
 
 import android.content.Context
 import android.graphics.SurfaceTexture
@@ -37,6 +37,7 @@ class GLVideoRander : GLSurfaceView.Renderer,
     private lateinit var surfaceTexture:SurfaceTexture
 
     private var mProjectionMatrix = FloatArray(16)
+    private var sTMatrix = FloatArray(16)
 
     constructor(context: Context,uri:Uri,path:String){
         this.context=context
@@ -72,12 +73,12 @@ class GLVideoRander : GLSurfaceView.Renderer,
     override fun onDrawFrame(gl: GL10?) {
         synchronized (this) {
             if (updateSurface) {
-                surfaceTexture.updateTexImage();
-                surfaceTexture.getTransformMatrix(mProjectionMatrix)
-                updateSurface = false;
+                surfaceTexture.updateTexImage()
+                surfaceTexture.getTransformMatrix(sTMatrix)
+                updateSurface = false
             }
         }
-        videoDrawer?.draw(textureId, mProjectionMatrix, mProjectionMatrix)
+        videoDrawer?.draw(textureId, mProjectionMatrix, sTMatrix)
 
     }
 

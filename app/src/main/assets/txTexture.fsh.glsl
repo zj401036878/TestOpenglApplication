@@ -15,6 +15,9 @@ uniform float uProgress;////传递进来的时间
 const  float centerX=0.55;  //圆点x
 const  float centerY =0.3;  //圆点y
 const  float raduius =0.35; //局部半径
+//const  float centerX=0.5;  //圆点x
+//const  float centerY =0.5;  //圆点y
+//const  float raduius =0.35; //局部半径
 
 void main() {
 

@@ -1,11 +1,8 @@
 package com.example.testopenglapplication.GLShader
 
 import android.content.Context
-import android.icu.text.CaseMap
 import android.opengl.GLES11Ext
 import android.opengl.GLES30
-import com.example.testopenglapplication.R
-import com.example.testopenglapplication.util.GLTexture
 import com.example.testopenglapplication.util.ShaderUtil
 import java.nio.FloatBuffer
 
@@ -44,7 +41,7 @@ class GLVideoShader {
 
     private var threshold:Float=0.4f//黑白阈值
 
-    constructor(context: Context){
+    constructor(context: Context?){
 
         program = ShaderUtil.initProgram("video.vsh.glsl","video.fsh.glsl")
         vertBuffer= ShaderUtil.transformFloatBuffer(vertexes)
@@ -55,7 +52,6 @@ class GLVideoShader {
         uTexture=GLES30.glGetUniformLocation(program, "uTexture")
 
         uThreshold=GLES30.glGetUniformLocation(program, "uThreshold")
-
 
     }
 

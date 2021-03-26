@@ -1,14 +1,22 @@
 package com.example.testopenglapplication
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.AttributeSet
-import android.util.Log
+import android.view.View
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.testopenglapplication.GLShader.GLTeXiaoTexture
 import com.example.testopenglapplication.GLShader.GLTexture
 import com.example.testopenglapplication.GLShader.GlPotion
+import com.example.testopenglapplication.util.GLTextureUtil
+import com.example.testopenglapplication.util.ShaderUtil
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -17,6 +25,9 @@ class MyGLView :GLSurfaceView,GLSurfaceView.Renderer{
     private lateinit var glPotion: GlPotion
     private lateinit var glTexture: GLTexture
     private lateinit var glTeXiao: GLTeXiaoTexture
+
+    var changePic:Boolean=false
+    var changeUri:Uri?=null
 
     //Model View Projection Matrix--模型视图投影矩阵
     private var mMVPMatrix = FloatArray(16)
@@ -69,7 +80,13 @@ class MyGLView :GLSurfaceView,GLSurfaceView.Renderer{
             mViewMatrix, 0)
 //        glPotion.draw(mMVPMatrix)
 //        glTexture.draw(mMVPMatrix)
-        glTeXiao.draw(mMVPMatrix)
+
+        if(changePic){
+            changePic=false
+            //
+        }
+            glTeXiao.draw(mMVPMatrix)
+
     }
 
 
@@ -83,6 +100,37 @@ class MyGLView :GLSurfaceView,GLSurfaceView.Renderer{
     }
     fun setTimeProgress(num:Float){
         glTeXiao.setTimeProgress(num)
+    }
+
+    fun setTextureByALBUM(uri: Uri?){
+        changeUri=uri
+        changePic=true
+
+        glTeXiao.setTextureByALBUM(1)
+    }
+
+
+    private fun getTextureId(){
+        Glide.with(this).asBitmap().load(changeUri).into(object : CustomViewTarget<View, Bitmap>(this){
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                ShaderUtil.Logi("onLoadFailed-thread=${Thread.currentThread().name}")
+            }
+
+            override fun onResourceReady(
+                resource: Bitmap,
+                transition: Transition<in Bitmap>?
+            ) {
+                ShaderUtil.Logi("onLoadFailed-thread=${Thread.currentThread().name}")
+                var textureId=GLTextureUtil.loadTexture(resource)
+                glTeXiao.setTextureByALBUM(textureId)
+                glTeXiao.draw(mMVPMatrix)
+            }
+
+            override fun onResourceCleared(placeholder: Drawable?) {
+                ShaderUtil.Logi("onResourceCleared-thread=${Thread.currentThread().name}")
+            }
+
+        })
     }
 
 }
