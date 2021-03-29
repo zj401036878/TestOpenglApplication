@@ -20,15 +20,15 @@ void main() {
 //    if ((pos.x-centerX)*(pos.x-centerX)+(pos.y-centerY)*(pos.y-centerY)<raduius*raduius){
     if (pos.x>0.2&&pos.x<0.8&&pos.y>0.2&&pos.y<0.8){
         //马赛克处理
-        float cellX= 2.0;//  rowCount/cellx-->一行的数量
-        float cellY= 2.0;//  rowCount/cellx-->一列的数量
-        float rowCount=400.0;//扩大坐标
-        if ((pos.x-centerX)*(pos.x-centerX)+(pos.y-centerY)*(pos.y-centerY)<raduius*raduius){
-            //局部---圆内
-            pos.x = pos.x*rowCount;//对纹理图片进行放大
-            pos.y = pos.y*rowCount;//对纹理图片进行放大
-            pos = vec2(floor(pos.x/cellX)*cellX/rowCount, floor(pos.y/cellY)*cellY/(rowCount));//求出原来某点(x,y)应对应的位置
-        }
+//        float cellX= 2.0;//  rowCount/cellx-->一行的数量
+//        float cellY= 2.0;//  rowCount/cellx-->一列的数量
+//        float rowCount=400.0;//扩大坐标
+//        if ((pos.x-centerX)*(pos.x-centerX)+(pos.y-centerY)*(pos.y-centerY)<raduius*raduius){
+//            //局部---圆内
+//            pos.x = pos.x*rowCount;//对纹理图片进行放大
+//            pos.y = pos.y*rowCount;//对纹理图片进行放大
+//            pos = vec2(floor(pos.x/cellX)*cellX/rowCount, floor(pos.y/cellY)*cellY/(rowCount));//求出原来某点(x,y)应对应的位置
+//        }
 
     } else {
 
@@ -39,7 +39,7 @@ void main() {
 
     //颜色
 //if ((pos.x-centerX)*(pos.x-centerX)+(pos.y-centerY)*(pos.y-centerY)<raduius*raduius){
-    if (pos.x>0.2&&pos.x<0.8&&pos.y>0.2&&pos.y<0.8){
+    if (pos.x>0.0&&pos.x<0.5&&pos.y>0.0&&pos.y<0.5){
     //在圆内
 
             float mean = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
@@ -52,7 +52,44 @@ void main() {
                 color.g=0.0;
                 color.b=1.0;
             }
-}else{
+}else if(pos.x>0.5&&pos.x<1.0&&pos.y>0.0&&pos.y<0.5){
+        float mean = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
+        if(mean>= uThreshold){
+            color.r=1.0;
+            color.g=1.0;
+            color.b=1.0;
+        }else{
+            color.r=0.0;
+            color.g=0.0;
+            color.b=0.0;
+        }
+    }
+    else if(pos.x>0.0&&pos.x<0.5&&pos.y>0.5&&pos.y<1.0){
+        float mean = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
+        if(mean>= uThreshold){
+            color.r=1.0;
+            color.g=1.0;
+            color.b=1.0;
+        }else{
+            color.r=1.0;
+            color.g=0.0;
+            color.b=0.0;
+        }
+    }
+    else if(pos.x>0.5&&pos.x<1.0&&pos.y>0.5&&pos.y<1.0){
+        float mean = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
+        if(mean>= uThreshold){
+            color.r=1.0;
+            color.g=1.0;
+            color.b=1.0;
+        }else{
+            color.r=0.3;
+            color.g=0.5;
+            color.b=0.1;
+        }
+    }
+
+    else{
     //圆外
 
             float rate= 2264.0 / 1080.0;
