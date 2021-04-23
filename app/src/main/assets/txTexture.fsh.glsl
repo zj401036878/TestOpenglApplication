@@ -18,7 +18,7 @@ const  float raduius =0.35; //局部半径
 //const  float centerX=0.5;  //圆点x
 //const  float centerY =0.5;  //圆点y
 //const  float raduius =0.35; //局部半径
-
+const  vec2 fbl=vec2(805.0,1010.0);
 void main() {
 
 
@@ -29,7 +29,12 @@ void main() {
     //        pos.x = 1.0 - pos.x;
     //    }
 
+    //扭转
+//    pos = rotate(0.5, 0.3, fbl, pos);
+
+
     //马赛克处理
+    /**
     float cellX= 2.0;//  rowCount/cellx-->一行的数量
     float cellY= 2.0;//  rowCount/cellx-->一列的数量
     float rowCount=300.0;//扩大坐标
@@ -39,6 +44,7 @@ void main() {
         pos.y = pos.y*rowCount;//对纹理图片进行放大
         pos = vec2(floor(pos.x/cellX)*cellX/rowCount, floor(pos.y/cellY)*cellY/(rowCount));//求出原来某点(x,y)应对应的位置
     }
+       */
 
     //放大
     float t = 0.7; //周期
@@ -79,6 +85,7 @@ void main() {
         r = 1.0 - color.r;
         g = 1.0 - color.g;
         b = 1.0 - color.b;
+
     }
 
     //[怀旧]
@@ -101,4 +108,25 @@ void main() {
         outColor = vec4(r, g, b, 1.0);
     }
 
+}
+
+//扭转
+vec2 rotate(float radius, float angle, vec2 texSize, vec2 texCoord)
+{
+    vec2 newTexCoord = texCoord;
+    vec2 center = vec2(texSize.x / 2.0, texSize.y / 2.0);
+    vec2 tc = texCoord * texSize;
+    tc -= center;
+    float dist = length(tc);
+    if (dist < radius) {
+        float percent = (radius - dist) / radius;
+        float theta = percent * percent * angle * 8.0;
+        float s = sin(theta);
+        float c = cos(theta);
+        tc = vec2(dot(tc, vec2(c, -s)), dot(tc, vec2(s, c)));
+        tc += center;
+
+        newTexCoord = tc / texSize;
+    }
+    return newTexCoord;
 }

@@ -17,3 +17,4 @@ void main() {
     outColor = color*(1.0-uT) + color2*uT;// 混合两个颜色值
 
 }
+

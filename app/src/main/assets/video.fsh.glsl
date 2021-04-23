@@ -18,7 +18,7 @@ void main() {
     vec2 pos = vTexCoord.xy;
     //位置
 //    if ((pos.x-centerX)*(pos.x-centerX)+(pos.y-centerY)*(pos.y-centerY)<raduius*raduius){
-    if (pos.x>0.2&&pos.x<0.8&&pos.y>0.2&&pos.y<0.8){
+    if (pos.x>0.0&&pos.x<0.5){
         //马赛克处理
 //        float cellX= 2.0;//  rowCount/cellx-->一行的数量
 //        float cellY= 2.0;//  rowCount/cellx-->一列的数量
@@ -33,6 +33,12 @@ void main() {
     } else {
 
     }
+    //左右分镜
+        if (pos.y > 0.5) {
+            pos.y =(pos.y-0.5)*2.0;
+        }else{
+            pos.y=pos.y*2.0;
+        }
 
     vec3 color = texture(uTexture, pos).rgb;
 
@@ -40,18 +46,17 @@ void main() {
     //颜色
 //if ((pos.x-centerX)*(pos.x-centerX)+(pos.y-centerY)*(pos.y-centerY)<raduius*raduius){
     if (pos.x>0.0&&pos.x<0.5&&pos.y>0.0&&pos.y<0.5){
-    //在圆内
 
-            float mean = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
-            if(mean>= uThreshold){
-                color.r=1.0;
-                color.g=1.0;
-                color.b=1.0;
-            }else{
-                color.r=0.0;
-                color.g=0.0;
-                color.b=1.0;
-            }
+//            float mean = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
+//            if(mean>= uThreshold){
+//                color.r=1.0;
+//                color.g=1.0;
+//                color.b=1.0;
+//            }else{
+//                color.r=0.0;
+//                color.g=0.0;
+//                color.b=1.0;
+//            }
 }else if(pos.x>0.5&&pos.x<1.0&&pos.y>0.0&&pos.y<0.5){
         float mean = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
         if(mean>= uThreshold){

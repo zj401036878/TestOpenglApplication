@@ -18,7 +18,7 @@ class MyGLVideoView :GLSurfaceView{
     constructor(context: Context, attr: AttributeSet):super(context,attr){
         var path="${context.externalCacheDir!!.toString()}/aaa1.mp4"
         var uri=UriUtil.toUri(context,path)
-        ShaderUtil.Logi("path:${path}")
+//        ShaderUtil.Logi("path:${path}")
         videoRander= GLVideoRander(context,uri,path)
         setEGLContextClientVersion(3)
         setRenderer(videoRander)

@@ -2,6 +2,10 @@ package com.example.testopenglapplication
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +14,10 @@ import android.provider.Settings
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import com.example.testopenglapplication.databinding.ActivityMainBinding
+import com.example.testopenglapplication.util.BitmapUtil
 
 import com.example.testopenglapplication.util.PermissionUtil
+import com.example.testopenglapplication.util.ShaderUtil
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
@@ -69,7 +75,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.seekTime.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                binding.myglview.setTimeProgress((progress)/100f)
+//                binding.myglview.setTimeProgress((progress)/100f)
+                binding.myglview.rotatePic(progress*1.8f)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -102,6 +109,17 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnCamerax.setOnClickListener {
             startActivity(Intent(this@MainActivity,CameraxActivity::class.java))
+        }
+
+        binding.btnSave.setOnClickListener {
+
+           var width= binding.myglview.width
+            var height= binding.myglview.height
+            var path="${externalCacheDir!!.toString()}/saveBitmap.png"
+            binding.myglview.saveBitmap(width,height,path)
+
+//            ShaderUtil.Logi("lenth:${bitmap.byteCount}")
+
         }
     }
 

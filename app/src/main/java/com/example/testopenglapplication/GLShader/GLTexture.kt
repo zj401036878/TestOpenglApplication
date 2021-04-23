@@ -1,6 +1,7 @@
 package com.example.testopenglapplication.GLShader
 
 import android.content.Context
+import android.graphics.Shader
 import android.opengl.GLES30
 import com.example.testopenglapplication.R
 import com.example.testopenglapplication.util.GLTextureUtil
@@ -46,6 +47,8 @@ class GLTexture {
     private var uTexture1 = -1 //纹理1的句柄
     private var uTexture2 = -1 //纹理2的句柄
 
+
+
     constructor(context:Context){
         textureId1= GLTextureUtil.loadTexture(context,R.mipmap.texture1)
         textureId2= GLTextureUtil.loadTexture(context,R.mipmap.texture3)
@@ -56,6 +59,7 @@ class GLTexture {
         uMVPMatrix = GLES30.glGetUniformLocation(program, "uMVPMatrix")
         uTexture1=GLES30.glGetUniformLocation(program, "uTexture")
         uTexture2=GLES30.glGetUniformLocation(program, "uTexture2")
+
     }
 
 
@@ -96,11 +100,9 @@ class GLTexture {
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId2)
         GLES30.glUniform1i(uTexture2,1)
 
-
         //绘制
         GLES30.glLineWidth(10f)
         GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, vertexes.size / VERTEX_DIMENSION)
-
 
 
         //禁用顶点数组
